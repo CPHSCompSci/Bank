@@ -3,11 +3,12 @@ package app;
 import java.util.ArrayList;
 
 public class Bank {
+	// Variable for logging/not logging
 	private static final boolean LOG = true;
 
 	private static int accountCounter = 1;
 	private String name;
-	ArrayList<Account> accounts;
+	private ArrayList<Account> accounts;
 
 	public Bank() {
 		this("Bank Name");
@@ -44,7 +45,7 @@ public class Bank {
 			log("Could not deposit to account " + accountNumber);
 			return false;
 		}
-		account.amount += amount;
+		account.balance += amount;
 		log("Successfully deposited $" + amount + " to " + account);
 		return true;
 	}
@@ -55,11 +56,11 @@ public class Bank {
 			log("Could not withdraw from account " + accountNumber);
 			return false;
 		}
-		if (account.amount < amount) {
+		if (account.balance < amount) {
 			log("Insufficient funds in " + account);
 			return false;
 		}
-		account.amount -= amount;
+		account.balance -= amount;
 		log("Successfully withdrew $" + amount + " from " + account);
 		return true;
 	}
@@ -71,22 +72,22 @@ public class Bank {
 			return -1;
 		}
 		log("Successfully checked balance of account " + account);
-		return account.amount;
+		return account.balance;
 	}
 
-	public void saveAccounts() {
+	public void saveAccounts(String filename) {
 		// TODO
 		log("Save not yet implemented.");
 	}
 
-	public void loadAccounts() {
+	public void loadAccounts(String filename) {
 		// TODO
 		log("Load not yet implemented.");
 	}
 
 	private Account findAccount(int accountNumber) {
 		for (int i = accounts.size() - 1; i >= 0; i--) {
-			if (accounts.get(i).getAccountNumber() == accountNumber)
+			if (accounts.get(i).accountNumber == accountNumber)
 				return accounts.get(i);
 		}
 		return null;
@@ -97,24 +98,23 @@ public class Bank {
 			System.out.println(name + " ::: " + message + ".");
 	}
 
+	/**
+	 * Private Inner Class Account
+	 * Deals with Account information
+	 */
 	private class Account {
 		int accountNumber;
 		String name;
-		int amount;
+		int balance;
 
 		private Account(String name) {
 			this.name = name;
-			amount = 0;
+			balance = 0;
 			accountNumber = accountCounter++;
 		}
 
-		private int getAccountNumber() {
-			return accountNumber;
-		}
-
 		public String toString() {
-			// TODO
-			return "{" + accountNumber + "::" + name + "::$" + amount + "}";
+			return "{" + accountNumber + "::" + name + "::$" + balance + "}";
 		}
 
 	}
